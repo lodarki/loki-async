@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
+import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -183,15 +184,35 @@ public class DateUtil {
     public static Date nextDayFirstSecond(Date date) {
         if (date == null) {
             return null;
-        } else {
-            Calendar c = Calendar.getInstance();
-            c.setTime(date);
-            c.set(5, c.get(5) + 1);
-            c.set(11, 0);
-            c.set(12, 0);
-            c.set(13, 0);
-            return c.getTime();
         }
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return c.getTime();
+    }
+
+    /**
+     * @description 获取当月的前一天，从那天的0点0分0秒开始
+     * @params [date]
+     * @returnType java.util.Date
+     * @author pantao
+     * @date 2018/7/12 11:24
+     */
+    public static Date beforDayFirstSecond(Date date) {
+        if (date == null) {
+            date = new Date();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) - 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime();
     }
 
     public static String getUTCTimeStr() {
@@ -220,6 +241,25 @@ public class DateUtil {
 
         Date date2 = nextDayFirstSecond(date);
         return format(date2, dateFormat);
+    }
+
+    /**
+     * @description 获取当月的前一天，从那天的0点0分0秒开始
+     * @params [date, dateFormat]
+     * @returnType java.lang.String
+     * @author pantao
+     * @date 2018/7/12 11:25
+     */
+    public static String beforeDayFirstSecond(Date date, String dateFormat) {
+        if (StringUtils.isEmpty(dateFormat)) {
+	        dateFormat = "yyyyMMddHHmmss";
+        }
+
+	    if (date == null) {
+		    date = new Date();
+	    }
+
+	    return format(beforDayFirstSecond(date), dateFormat);
     }
 
     public static void main(String[] args) throws ParseException {
