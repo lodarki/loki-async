@@ -3,10 +3,7 @@ package com.pant.loki.utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.regex.Matcher;
@@ -178,5 +175,26 @@ public class FileUtil {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * @description 将字符串写到文件中
+     * @params [str, file]
+     * @returnType boolean
+     * @author pantao
+     * @date 2018/7/16 16:54
+     */
+    public static boolean overwriteStr2File(String str, File file) {
+
+        try {
+            FileWriter writer = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(writer);
+            bw.write(str);
+            bw.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
