@@ -3,7 +3,6 @@ package com.pant.loki.practise;
 import com.pant.loki.utils.FileUtil;
 
 import java.io.File;
-import java.io.IOException;
 
 public class OsNameTellTest {
 	public static void main(String[] args) {
